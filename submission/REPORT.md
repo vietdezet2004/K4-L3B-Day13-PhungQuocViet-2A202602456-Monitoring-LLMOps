@@ -8,7 +8,7 @@
 - **MSSV:** 2A202602456
 - **Lớp:** K4-L3B
 - **Repository URL:** <https://github.com/vietdezet2004/K4-L3B-Day13-PhungQuocViet-2A202602456-Monitoring-LLMOps.git>
-- **Commit SHA cuối:**
+- **Commit SHA cuối:** `afd6b81bbe52c86791a10425804ed3c504609779`
 - **Challenge ID:** `day13-k4-l3b-monitoring-llmops-v1`
 - **Tên project Langfuse cá nhân:** `day13-k4-l3b-2a202602456`
 
