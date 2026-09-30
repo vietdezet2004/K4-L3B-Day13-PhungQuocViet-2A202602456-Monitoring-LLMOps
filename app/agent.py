@@ -51,7 +51,18 @@ class LabAgent:
             },
         ):
             started = time.perf_counter()
-            docs = retrieve(message)
+
+            if hasattr(langfuse_client, "start_as_current_observation"):
+                with langfuse_client.start_as_current_observation(
+                    name="retrieval",
+                    as_type="span",
+                    input=summarize_text(message),
+                ) as ret_span:
+                    docs = retrieve(message)
+                    ret_span.update(output={"doc_count": len(docs), "matched": bool(docs and "No domain" not in docs[0])})
+            else:
+                docs = retrieve(message)
+
             prompt = resolve_prompt(
                 langfuse_client,
                 feature=feature,
@@ -71,10 +82,30 @@ class LabAgent:
                 },
                 version=prompt.version,
             )
-            # TODO (CP2): instrument retrieve() and FakeLLM.generate() as child
-            # observations. The nested generation must receive prompt, usage and cost.
+
             with propagate_attributes(prompt=prompt.managed_prompt):
-                response = self.llm.generate(prompt.text)
+                if hasattr(langfuse_client, "start_as_current_observation"):
+                    with langfuse_client.start_as_current_observation(
+                        name="generation",
+                        as_type="generation",
+                        model=self.model,
+                        prompt=prompt.managed_prompt,
+                        input=summarize_text(prompt.text),
+                    ) as gen_obs:
+                        response = self.llm.generate(prompt.text)
+                        cost = self._estimate_cost(response.usage.input_tokens, response.usage.output_tokens)
+                        gen_obs.update(
+                            output=summarize_text(response.text),
+                            usage_details={
+                                "input": response.usage.input_tokens,
+                                "output": response.usage.output_tokens,
+                                "total": response.usage.input_tokens + response.usage.output_tokens,
+                            },
+                            cost_details={"total": cost},
+                        )
+                else:
+                    response = self.llm.generate(prompt.text)
+
             quality_score = self._heuristic_quality(message, response.text, docs)
             latency_ms = int((time.perf_counter() - started) * 1000)
             cost_usd = self._estimate_cost(response.usage.input_tokens, response.usage.output_tokens)
