@@ -4,20 +4,20 @@
 
 ## 1. Thông tin học viên
 
-- **Họ và tên:**
-- **MSSV:**
+- **Họ và tên:** Phùng Quốc Việt
+- **MSSV:** 2A202602456
 - **Lớp:** K4-L3B
-- **Repository URL:**
+- **Repository URL:** <https://github.com/vietdezet2004/K4-L3B-Day13-PhungQuocViet-2A202602456-Monitoring-LLMOps.git>
 - **Commit SHA cuối:**
 - **Challenge ID:**
-- **Tên project Langfuse cá nhân:** `day13-k4-l3b-<MSSV>`
+- **Tên project Langfuse cá nhân:** `day13-k4-l3b-2a202602456`
 
 ## 2. Evidence index
 
 Điền đúng đường dẫn tới evidence thực tế. Có thể đổi tên hoặc dùng nhiều ảnh nếu cần.
 
 | Evidence | Đường dẫn |
-|---|---|
+| --- | --- |
 | Pytest cuối | `evidence/01-pytest.png` |
 | Log validator | `evidence/02-log-validator.png` |
 | Dashboard validator | `evidence/03-dashboard-validator.png` |
@@ -36,14 +36,14 @@
 ## 3. Kết quả kỹ thuật
 
 | Nội dung | Baseline | Kết quả cuối | Nhận xét |
-|---|---|---|---|
-| `validate_logs.py` | | | |
-| `validate_dashboard.py` | | | |
-| `pytest` | | | |
-| Số traces hợp lệ | | | |
-| Số PII leak | | | |
-| Latency P95 / TTFT P95 | | | |
-| Retrieval success rate | | | |
+| --- | --- | --- | --- |
+| `validate_logs.py` | 30/100 | | |
+| `validate_dashboard.py` | HỢP LỆ: 6/6 panel | | |
+| `pytest` | 22 passed in 1.44s | | |
+| Số traces hợp lệ | 0 | | |
+| Số PII leak | 0 | | |
+| Latency P95 / TTFT P95 | 663.0ms / 50ms | | |
+| Retrieval success rate | 100% | | |
 
 ## 4. Logging và PII
 
